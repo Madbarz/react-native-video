@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer;
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
 import com.google.android.exoplayer2.metadata.Metadata;
@@ -101,6 +102,7 @@ class ReactExoplayerView extends FrameLayout implements
     private DataSource.Factory mediaDataSourceFactory;
     private SimpleExoPlayer player;
     private DefaultTrackSelector trackSelector;
+    private AudioAttributes.Builder audioAttributesBuilder = AudioAttributes.Builder();
     private boolean playerNeedsSource;
 
     private int resumeWindow;
@@ -360,6 +362,7 @@ class ReactExoplayerView extends FrameLayout implements
                             trackSelector, defaultLoadControl, null, bandwidthMeter);
                     player.addListener(self);
                     player.addMetadataOutput(self);
+                    player.setAudioAttributes(audioAttributesBuilder.build());
                     exoPlayerView.setPlayer(player);
                     audioBecomingNoisyReceiver.setListener(self);
                     bandwidthMeter.addEventListener(new Handler(), self);
@@ -1105,6 +1108,18 @@ class ReactExoplayerView extends FrameLayout implements
         if (player != null) {
             player.setVolume(audioVolume);
         }
+    }
+
+    public void setAudioUsage(int audioUsage) {
+        audioAttributesBuilder.setUsage(audioUsage)
+    }
+
+    public void setAudioFlags(int audioFlags) {
+        audioAttributesBuilder.setFlags(audioFlags)
+    }
+
+    public void setAudioContentType(int audioContentType) {
+        audioAttributesBuilder.setContentType(audioContentType)
     }
 
     public void seekTo(long positionMs) {
