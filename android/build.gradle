@@ -18,9 +18,13 @@ android {
         }
     }
 }
-
+allprojects {
+    repositories {
+        maven { url 'https://www.jitpack.io' }
+    }
+}
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
-    implementation 'com.yqritc:android-scalablevideoview:1.0.4'
+    implementation 'com.github.MatrixFrog:android-scalablevideoview:v1.0.4-jitpack'
 }
